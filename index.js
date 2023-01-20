@@ -5,6 +5,9 @@ require("dotenv").config();
 //express
 const app = express();
 
+//middleware
+app.use(express.json());
+
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   auth: {
@@ -15,13 +18,14 @@ const transporter = nodemailer.createTransport({
 });
 
 app.post("/send-email", (req, res) => {
+  // console.log(req.body.email);
   // code to send the email goes here
   transporter.sendMail(
     {
-      from: "shivarajum42@gmail.com",
-      to: "shivajyothiachar42@gmail.com",
+      from: process.env.USER,
+      to: req.body.email,
       subject: "Hello World thank you for subscribing",
-      text: "Regards Raju",
+      text: req.body.message,
     },
     (error, info) => {
       if (error) {
@@ -31,7 +35,7 @@ app.post("/send-email", (req, res) => {
       }
     }
   );
-  console.log("Mail sent");
+  // res.send("Hello thanks");
 });
 
 const port = 8000;
