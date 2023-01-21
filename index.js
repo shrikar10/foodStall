@@ -1,5 +1,7 @@
 const nodemailer = require("nodemailer");
 const express = require("express");
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 require("dotenv").config();
 
 //express
@@ -16,6 +18,8 @@ const transporter = nodemailer.createTransport({
   },
   secure: true,
 });
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.post("/send-email", (req, res) => {
   // console.log(req.body.email);
@@ -35,7 +39,6 @@ app.post("/send-email", (req, res) => {
       }
     }
   );
-  // res.send("Hello thanks");
 });
 
 const port = 8000;
