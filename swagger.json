@@ -45,7 +45,12 @@
                           "$ref": "#/definitions/InvalidResponse"
                       }
                   }
-              }
+              },
+              "security": [
+                {
+                    "cors": []
+                }
+            ]    
           }
       }
   }, 

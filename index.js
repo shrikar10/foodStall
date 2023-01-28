@@ -2,6 +2,7 @@ const nodemailer = require("nodemailer");
 const express = require("express");
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
+const cors = require('cors');
 require("dotenv").config();
 
 //express
@@ -9,7 +10,7 @@ const app = express();
 
 //middleware
 app.use(express.json());
-
+app.use(cors({origin: '*'}));
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   auth: {
@@ -41,5 +42,40 @@ app.post("/send-email", (req, res) => {
   );
 });
 
-const port = 8000;
+const mysql = require('mysql2');
+
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'Srinivas@9362',
+  database: 'foodstallorders'
+});
+
+connection.connect();
+
+var userid =4
+var uname = "rocky bhai"
+// var email = "Srinivas@gmail.com"
+
+var query = `INSERT INTO sample
+        (userid, uname) VALUES(20, ?);`
+
+
+        connection.query(query, [userid, uname], (err, rows) => {
+              if (err) throw err;
+              console.log("Row inserted with id = "
+                  + rows.insertId);
+          });
+
+
+
+const port = process.env.PORT;
 app.listen(port);
+
+
+console.log(`App is listening on ${port}`)
+
+
+
+
+
