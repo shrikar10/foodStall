@@ -7,6 +7,7 @@ require("dotenv").config();
 //Routes
 const emailRoute = require("./routes/email");
 const orderRoute = require("./routes/order");
+const userRoute = require("./routes/user");
 
 
 //express
@@ -21,6 +22,7 @@ app.use(cors({ origin: "*" }));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api/", emailRoute);
 app.use("/api/", orderRoute);
+app.use("/api/", userRoute);
 
 
 
