@@ -47,7 +47,7 @@ const mysql = require('mysql2');
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Srinivas@9362',
+  password: process.env.DB_PASS,
   database: 'foodstallorders'
 });
 
