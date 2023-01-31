@@ -1,13 +1,15 @@
 const mysql = require("mysql2");
 
-const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: process.env.DB_PASS,
-  database: "foodstallorders",
-});
+const connectiontoDB = () => {
+  return mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: process.env.DB_PASS,
+    database: "foodstallorders",
+  });
+};
 
-connection.connect();
+module.exports = connectiontoDB;
 
 var userid = 4;
 var uname = "rocky bhai";
