@@ -6,6 +6,7 @@ const connection = connectiontoDB();
 var addquery = `INSERT INTO users(user_id, order_id,first_name, last_name,phone_number, address) VALUES(?,2,?,"S","123","ABC");`;
 var delquery = `delete from users where user_id=?;`;
 var updatequery = `update users set phone_number = ? where user_id = ?;` ;
+var getquery = `select * from users where user_id  = ?;` ;
 
 router.post("/addUser", (req, res) => {
   connection.connect();
@@ -71,6 +72,25 @@ router.put("/updateUser", (req, res) => {
     });
     return res.send("<h1>User updated sucessfully</h1>");
   });
+
+
+router.get("/getUser", (req, res) => {
+    connection.connect();
+    connection.query(getquery,
+      [req.body.user_id],
+       (error, results) => {
+      if (error) {
+        console.error(error);
+      } else {
+        return res.send(results);
+      }
+    });
+    
+  });
+
+
+
+
 
 module.exports = router;
 
