@@ -13,9 +13,10 @@ const userRoute = require("./routes/user");
 //express
 const app = express();
 
+
 //middleware
 app.use(express.json());
-app.use(cors({ origin: "*" }));
+app.use(cors());
 
 
 

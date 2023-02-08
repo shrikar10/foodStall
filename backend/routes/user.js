@@ -3,16 +3,20 @@ const router = express.Router();
 const connectiontoDB = require("../controllers/db");
 const connection = connectiontoDB();
 
-var addquery = `INSERT INTO users(user_id, order_id,first_name, last_name,phone_number, address) VALUES(?,2,?,"S","123","ABC");`;
+var addquery = `INSERT INTO users(user_id, order_id,first_name, last_name,phone_number, address) VALUES(?,?,?,?,?,?);`;
 var delquery = `delete from users where user_id=?;`;
 var updatequery = `update users set phone_number = ? where user_id = ?;` ;
-var getquery = `select * from users where user_id  = ?;` ;
+var getquery = `select * from users ;` ;
 
 router.post("/addUser", (req, res) => {
   connection.connect();
   connection.query(addquery,
     [req.body.user_id,
-    req.body.first_name],
+    req.body.order_id,
+    req.body.first_name,
+    req.body.last_name,
+    req.body.phone_number,
+    req.body.address],
      (error, results) => {
     if (error) {
       console.error(error);
@@ -77,12 +81,12 @@ router.put("/updateUser", (req, res) => {
 router.get("/getUser", (req, res) => {
     connection.connect();
     connection.query(getquery,
-      [req.body.user_id],
+      // [req.body.user_id],
        (error, results) => {
       if (error) {
         console.error(error);
       } else {
-        return res.send(results);
+        return res.json(results);
       }
     });
     
