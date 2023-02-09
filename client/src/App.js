@@ -6,10 +6,9 @@ import {
 // import Delete from "./food/Delete";
 import Users from "./food/Users";
 import Add from "./food/Add";
-// import Update from "./food/Update";
+import Update from "./food/Update";
 // import Orders from "./food/Orders";
 // import Rest from "./food/Rest";
-// import Users from "./pages/Users";
 
 import "./style.css"
 
@@ -22,8 +21,8 @@ function App() {
 
           {/* <Route path="/" element={<food/>}/> */}
           <Route path="/add" element={<Add/>}/>
-          {/* <Route path="/update/:id" element={<Update/>}/>
-          <Route path="/delete/:id" element={<delete/>}/> */}
+          <Route path="/update/:id" element={<Update/>}/>
+          {/* <Route path="/delete/:id" element={<delete/>}/> */}
 
           {/* <Route path="/rest/:id" element={<rest/>}/> */}
 

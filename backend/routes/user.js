@@ -5,7 +5,7 @@ const connection = connectiontoDB();
 
 var addquery = `INSERT INTO users(user_id, order_id,first_name, last_name,phone_number, address) VALUES(?,?,?,?,?,?);`;
 var delquery = `delete from users where user_id=?;`;
-var updatequery = `update users set phone_number = ? where user_id = ?;` ;
+var updatequery = `update users set order_id=?,first_name=?, last_name=?,phone_number = ?, address=? where user_id = ?;` ;
 var getquery = `select * from users ;` ;
 
 router.post("/addUser", (req, res) => {
@@ -28,10 +28,11 @@ router.post("/addUser", (req, res) => {
 });
 
 
-router.delete("/deleteUser", (req, res) => {
+router.delete("/deleteUser/:id", (req, res) => {
     connection.connect();
+    const user_id = req.params.id;
     connection.query(delquery,
-      [req.body.user_id],
+      [user_id],
        (error, results) => {
       if (error) {
         console.error(error);
@@ -61,12 +62,16 @@ router.delete("/deleteUser", (req, res) => {
 //   });
 
 
-router.put("/updateUser", (req, res) => {
+router.put("/updateUser/:id", (req, res) => {
     connection.connect();
-    // var user_id = req.params.id;
+    const user_id = req.params.id;
+    const values =[req.body.order_id,
+      req.body.first_name,
+      req.body.last_name,
+      req.body.phone_number,
+      req.body.address]
     connection.query(updatequery,
-      [req.body.phone_number,
-        req.body.user_id],
+      [...values,user_id],
        (error, results) => {
       if (error) {
         console.error(error);

@@ -8,10 +8,10 @@ const Add = () => {
     const [user, setUser] =useState({
         user_id: "",
         order_id :"",
-        first_name :"",
-        last_name :"",
-        phone_number :"",
-        address : "",
+        first_name :"srini",
+        last_name :"fghguu",
+        phone_number :"8626",
+        address : "564",
 
     });
 

@@ -22,7 +22,7 @@ const Users = () => {
 
     const handleDelete = async (id)=>{
         try{
-            await axios.delete(`http://localhost:8000/api/deleteUser`);
+            await axios.delete(`http://localhost:8000/api/deleteUser/${id}`);
             window.location.reload()
         }catch(err){
             console.log(err);
@@ -39,15 +39,16 @@ const Users = () => {
                 {users.map((user)=>(
                     <div key={user.user_id} className="user">
                         <img src={user.address} alt="" />
+                        <h2>{user.user_id}</h2>
                         <h2>{user.order_id}</h2>
                         <h3>{user.first_name}</h3>
                         <h4>{user.last_name}</h4>
                         <h5>{user.phone_number}</h5>
                         <p>{user.address}</p>
-                        <button className="delete" onClick={()=>handleDelete(user.id)}>Delete</button>
+                        <button className="delete" onClick={()=>handleDelete(user.user_id)}>Delete</button>
                         <button className="Update">
                             <Link 
-                                to={`/update/${user.id}`}
+                                to={`/update/${user.user_id}`}
                                 style={{color:"inherit",textDecoration:"none"}}
                             >
                             Update
