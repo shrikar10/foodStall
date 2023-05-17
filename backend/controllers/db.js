@@ -2,7 +2,7 @@ const mysql = require("mysql2");
 
 const connectiontoDB = () => {
   return mysql.createConnection({
-    host: "localhost",
+    host: "mysql",
     user: "root",
     password: process.env.DB_PASS,
     database: "foodstallorders",
