@@ -1,14 +1,6 @@
-const nodemailer = require("nodemailer");
 const express = require("express");
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
-require("dotenv").config();
-
-//express
-const app = express();
-
-//middleware
-app.use(express.json());
+const router = express.Router();
+const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -18,10 +10,7 @@ const transporter = nodemailer.createTransport({
   },
   secure: true,
 });
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-app.post("/send-email", (req, res) => {
+router.post("/send-email", (req, res) => {
   // console.log(req.body.email);
   // code to send the email goes here
   transporter.sendMail(
@@ -41,5 +30,4 @@ app.post("/send-email", (req, res) => {
   );
 });
 
-const port = 8000;
-app.listen(port);
+module.exports = router;

@@ -13,7 +13,7 @@
   },
   "schemes": ["http"],
   "host": "localhost:8000",
-  "basePath": "/",
+  "basePath": "/api/",
   "paths" : {
       "/send-email" : {
           "post" : {
@@ -45,7 +45,12 @@
                           "$ref": "#/definitions/InvalidResponse"
                       }
                   }
-              }
+              },
+              "security": [
+                {
+                    "cors": []
+                }
+            ]    
           }
       }
   }, 

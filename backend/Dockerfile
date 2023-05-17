@@ -1,0 +1,18 @@
+FROM node:20-alpine3.16
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 8000
+EXPOSE 3306
+
+ENV USER=USER
+ENV PASSWORD=PASS
+ENV PORT=PORT
+ENV DB_PASS=DB_PASS
+
