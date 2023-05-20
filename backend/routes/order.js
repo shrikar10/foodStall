@@ -3,14 +3,14 @@ const router = express.Router();
 const connectiontoDB = require("../controllers/db");
 const connection = connectiontoDB();
 
-var getquery = `select * from orders where order_id  = ?;`;
+var getquery = `select * from orders ;`;
 var addquery = `INSERT INTO orders(order_id, item_name,email,item_price,phone_number,quantity,location) VALUES(?,?,?,?,?,?,?);`;
 var delquery = `delete  from orders where order_id =?;`;
 var updatequery = `update orders set  item_name=?,email=?,item_price=?,phone_number=?,quantity=?,location=?  where order_id=?;`;
 
 router.get("/getorder", (req, res) => {
   connection.connect();
-  connection.query(getquery, [req.body.order_id], (error, results) => {
+  connection.query(getquery,(error, results) => {
     if (error) {
       console.error(error);
     } else {
@@ -59,7 +59,8 @@ router.post("/addorder", (req, res) => {
 
 router.delete("/deleteorder", (req, res) => {
   connection.connect();
-  connection.query(delquery, [req.body.order_id], (error, results) => {
+  const order_id = req.params.id;
+  connection.query(delquery, [order_id], (error, results) => {
     if (error) {
       console.error(error);
     } else {
