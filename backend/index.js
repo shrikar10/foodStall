@@ -8,6 +8,7 @@ require("dotenv").config();
 const emailRoute = require("./routes/email");
 const orderRoute = require("./routes/order");
 const userRoute = require("./routes/user");
+const loginRoute = require("./routes/login");
 
 
 //express
@@ -24,7 +25,8 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api/", emailRoute);
 app.use("/api/", orderRoute);
 app.use("/api/", userRoute);
-
+// login route
+app.use("/api/", loginRoute);
 
 
 
