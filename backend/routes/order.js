@@ -57,7 +57,7 @@ router.post("/addorder", (req, res) => {
   return res.send("<h1>New order added sucessfully</h1>");
 });
 
-router.delete("/deleteorder", (req, res) => {
+router.delete("/deleteorder/:id", (req, res) => {
   connection.connect();
   const order_id = req.params.id;
   connection.query(delquery, [order_id], (error, results) => {
