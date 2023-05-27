@@ -18,7 +18,6 @@ const Users = () => {
         fetchAllUsers();
     },[]);
 
-    console.log(users);
 
     const handleDelete = async (id)=>{
         try{
@@ -48,7 +47,9 @@ const Users = () => {
                         <button className="delete" onClick={()=>handleDelete(user.user_id)}>Delete</button>
                         <button className="Update">
                             <Link 
+                                // to={{pathname:`/update/${user.user_id}`,state:{entityid:"users"}}}
                                 to={`/update/${user.user_id}`}
+                                state={{entityid:"users"}}
                                 style={{color:"inherit",textDecoration:"none"}}
                             >
                             Update

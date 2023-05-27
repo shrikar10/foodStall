@@ -48,7 +48,10 @@ const Orders = () => {
                         <button className="delete" onClick={()=>handleDelete(order.order_id)}>Delete</button>
                         <button className="Update">
                             <Link 
+                                // to={{pathname: `/update/${order.order_id}`,state:{entityid:"orders"}}}
+                                //send a prop stating this request is from orders
                                 to={`/update/${order.order_id}`}
+                                state={{entityid:"orders"}}
                                 style={{color:"inherit",textDecoration:"none"}}
                             >
                             Update
