@@ -40,7 +40,7 @@ const Update = () => {
         if (entity === "users"){
            await axios.get("http://localhost:8000/api/getuserbyid/"+user_id)
           .then(res=>{
-            setUser(res.data);
+            setUser((prevUser) => ({ ...prevUser, ...res.data[0] }));
             setError(true)
           })
           .catch(err=>console.log(err))
@@ -48,35 +48,14 @@ const Update = () => {
         else{
           await axios.get("http://localhost:8000/api/getorderbyid/"+user_id)
           .then(res=>{
-            setOrder(res.data);
+            setOrder((prevOrder) => ({ ...prevOrder, ...res.data[0] }));
           })
           .catch(err=>console.log(err))
         }
       }
       updateForm()
-      console.log(error);
-    },[])
-
-    const handleDelete = async (e) =>{
-      e.preventDefault();
-      try{
-        if(entity === "users"){
-          await axios.delete("http://localhost:8000/api/deleteuser/"+user_id);
-          navigate("/")
-          alert("User deleted successfully!");
-        }
-        else{
-          await axios.delete("http://localhost:8000/api/deleteorder/"+user_id);
-          navigate("/orders")
-          alert("Order deleted successfully!");
-        }
-      }catch(err){
-        console.log(err);
-        setError(true);
-      }
-    }
-    
-    
+    },[entity,user_id])
+ 
     const handleClick =async  e => {
         e.preventDefault()
         try{
@@ -97,8 +76,6 @@ const Update = () => {
         }
     };
 
-    // console.log(book)
-
     return (
       <div>
       <h1>{entity === "orders" ? 'Update the Order' : 'Update the User'}</h1>
@@ -107,25 +84,29 @@ const Update = () => {
             <div className='form'>
             <input
             type="number"
-            value={user.first_name}
+            value={user.order_id}
+            placeholder='Order Id'
             name="order_id"
             onChange={handleChange}
           />
           <input
             type="text"
             value={user.first_name}
+            placeholder='first_name'
             name="first_name"
             onChange={handleChange}
           />
           <input
             type="text"
             value={user.last_name}
+            placeholder='last_name'
             name="last_name"
             onChange={handleChange}
           />
           <input
             type="number"
             value={user.phone_number}
+            placeholder='phone_number'
             name="phone_number"
             onChange={handleChange}
           />
@@ -133,6 +114,7 @@ const Update = () => {
             rows={5}
             type="text"
             value={user.address}
+            placeholder='address'
             name="address"
             onChange={handleChange}
             />
@@ -148,36 +130,42 @@ const Update = () => {
           <input
             type="text"
             placeholder="Item Name"
+            value={order.item_name}
             name="item_name"
             onChange={handleChange}
           />
            <input
             type="number"
             placeholder="Item Price"
+            value={order.item_price}
             name="item_price"
             onChange={handleChange}
           />
           <input
             type="text"
             placeholder="Email"
+            value={order.email}
             name="email"
             onChange={handleChange}
           />
           <input
             type="number"
             placeholder="Phone number"
+            value={order.phone_number}
             name="phone_number"
             onChange={handleChange}
           />
           <input
             type="number"
             placeholder="quantity"
+            value={order.quantity}
             name="quantity"
             onChange={handleChange}
             />
             <textarea
             rows={5}
             type="text"
+            value={order.location}
             placeholder="Location"
             name="location"
             onChange={handleChange}
@@ -186,12 +174,8 @@ const Update = () => {
             {error && "Something went wrong!"}
             <Link to="/orders">See all Orders</Link>
             </div>
-            
             }
-
-            
-        </div>
-        
+        </div> 
     )
 }
 
