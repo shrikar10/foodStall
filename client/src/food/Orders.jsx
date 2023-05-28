@@ -18,8 +18,6 @@ const Orders = () => {
         fetchAllOrders();
     },[]);
 
-    console.log(orders);
-
     const handleDelete = async (id)=>{
         try{
             await axios.delete(`http://localhost:8000/api/deleteorder/${id}`);
@@ -61,7 +59,7 @@ const Orders = () => {
                 ))}
             </div>
             <button className="addHome">
-                <Link to="/add" style={{ color: "inherit", textDecoration: "none" }}>
+                <Link to="/add" state={{entityid:"orders"}} style={{ color: "inherit", textDecoration: "none" }}>
                 Add new order
                 </Link>
             </button>

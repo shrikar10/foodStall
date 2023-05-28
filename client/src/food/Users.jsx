@@ -59,7 +59,7 @@ const Users = () => {
                 ))}
             </div>
             <button className="addHome">
-                <Link to="/add" style={{ color: "inherit", textDecoration: "none" }}>
+                <Link to="/add" state={{entityid:"users"}} style={{ color: "inherit", textDecoration: "none" }}>
                 Add new User
                 </Link>
             </button>
