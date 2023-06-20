@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import { Link } from 'react-router-dom'
+import {api} from "./DataService";
 
 
 const Orders = () => {
@@ -9,7 +9,7 @@ const Orders = () => {
     useEffect(()=> {
         const fetchAllOrders = async ()=>{
             try{
-                const res = await axios.get("http://localhost:8000/api/getorder");
+                const res = await api.get("/getorder");
                 setOrders(res.data);
             }catch(err){
                 console.log(err);
@@ -20,7 +20,7 @@ const Orders = () => {
 
     const handleDelete = async (id)=>{
         try{
-            await axios.delete(`http://localhost:8000/api/deleteorder/${id}`);
+            await api.delete(`/deleteorder/${id}`);
             window.location.reload()
         }catch(err){
             console.log(err);

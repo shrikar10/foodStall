@@ -9,7 +9,6 @@ RUN npm install
 COPY . .
 
 EXPOSE 8000
-EXPOSE 3306
 
 ENV USER=shivarajum42@gmail.com
 ENV PASSWORD=frebifinsqhemvur

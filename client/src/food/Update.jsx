@@ -1,6 +1,7 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import {Link, useLocation, useNavigate } from 'react-router-dom';
+import {api} from "./DataService";
+
 
 const Update = () => {
     const [user, setUser] =useState({
@@ -38,7 +39,7 @@ const Update = () => {
     useEffect( ()=>{
        const  updateForm =  async () =>{
         if (entity === "users"){
-           await axios.get("http://localhost:8000/api/getuserbyid/"+user_id)
+           await api.get("/getuserbyid/"+user_id)
           .then(res=>{
             setUser((prevUser) => ({ ...prevUser, ...res.data[0] }));
             setError(true)
@@ -46,7 +47,7 @@ const Update = () => {
           .catch(err=>console.log(err))
         }
         else{
-          await axios.get("http://localhost:8000/api/getorderbyid/"+user_id)
+          await api.get("/getorderbyid/"+user_id)
           .then(res=>{
             setOrder((prevOrder) => ({ ...prevOrder, ...res.data[0] }));
           })
@@ -60,12 +61,12 @@ const Update = () => {
         e.preventDefault()
         try{
           if(entity=== "users"){
-            await axios.put("http://localhost:8000/api/updateUser/"+ user_id,user);
+            await api.put("/updateUser/"+ user_id,user);
             navigate("/")
             alert("User updated successfully!");
             }
             else{
-              await axios.put("http://localhost:8000/api/updateorder/"+ user_id,order);
+              await api.put("/updateorder/"+ user_id,order);
               navigate("/orders")
               alert("Order updated successfully!");
               

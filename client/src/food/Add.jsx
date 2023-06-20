@@ -1,8 +1,7 @@
-import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-
+import {api} from "./DataService";
 
 const Add = () => {
     const [user, setUser] =useState({
@@ -41,7 +40,7 @@ const Add = () => {
         if (entity === "users")
         try {
           console.log(user)
-          await axios.post("http://localhost:8000/api/addUser", user);
+          await api.post("/addUser", user);
           navigate("/");
           alert("User added successfully")
         } catch (err) {
@@ -50,7 +49,7 @@ const Add = () => {
         }
         else
         try {
-          await axios.post("http://localhost:8000/api/addorder", order);
+          await api.post("/addorder", order);
           navigate("/orders");
           alert("Order added successfully")
         } catch (err) {
