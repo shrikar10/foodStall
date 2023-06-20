@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import { Link } from 'react-router-dom'
-
+import {api} from "./DataService";
 
 const Users = () => {
     const [users,setUsers] = useState([]);
@@ -9,7 +8,7 @@ const Users = () => {
     useEffect(()=> {
         const fetchAllUsers = async ()=>{
             try{
-                const res = await axios.get("http://localhost:8000/api/getUser");
+                const res = await api.get("/getUser");
                 setUsers(res.data);
             }catch(err){
                 console.log(err);
@@ -18,11 +17,10 @@ const Users = () => {
         fetchAllUsers();
     },[]);
 
-    console.log(users);
 
     const handleDelete = async (id)=>{
         try{
-            await axios.delete(`http://localhost:8000/api/deleteUser/${id}`);
+            await api.delete(`/deleteUser/${id}`);
             window.location.reload()
         }catch(err){
             console.log(err);
@@ -48,7 +46,9 @@ const Users = () => {
                         <button className="delete" onClick={()=>handleDelete(user.user_id)}>Delete</button>
                         <button className="Update">
                             <Link 
+                                // to={{pathname:`/update/${user.user_id}`,state:{entityid:"users"}}}
                                 to={`/update/${user.user_id}`}
+                                state={{entityid:"users"}}
                                 style={{color:"inherit",textDecoration:"none"}}
                             >
                             Update
@@ -58,7 +58,7 @@ const Users = () => {
                 ))}
             </div>
             <button className="addHome">
-                <Link to="/add" style={{ color: "inherit", textDecoration: "none" }}>
+                <Link to="/add" state={{entityid:"users"}} style={{ color: "inherit", textDecoration: "none" }}>
                 Add new User
                 </Link>
             </button>

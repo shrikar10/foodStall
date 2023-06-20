@@ -39,3 +39,10 @@ VALUES (4, 2, 'Emily', 'Brown', '2223334444', '321 Pine Ln');
 
 INSERT INTO users (user_id, order_id, first_name, last_name, phone_number, address)
 VALUES (5, 1, 'David', 'Wilson', '4445556666', '654 Cedar Rd');
+
+CREATE TABLE login (
+  user_id INT PRIMARY KEY,
+  password VARCHAR(50),
+  FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+

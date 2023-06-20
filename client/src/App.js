@@ -7,7 +7,7 @@ import {
 import Users from "./food/Users";
 import Add from "./food/Add";
 import Update from "./food/Update";
-// import Orders from "./food/Orders";
+import Orders from "./food/Orders";
 // import Rest from "./food/Rest";
 
 import "./style.css"
@@ -18,7 +18,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Users/>}/>
-
+          <Route path="/orders" element={<Orders/>}/>
           {/* <Route path="/" element={<food/>}/> */}
           <Route path="/add" element={<Add/>}/>
           <Route path="/update/:id" element={<Update/>}/>

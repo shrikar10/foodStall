@@ -3,14 +3,26 @@ const router = express.Router();
 const connectiontoDB = require("../controllers/db");
 const connection = connectiontoDB();
 
-var getquery = `select * from orders where order_id  = ?;`;
+var getquery = `select * from orders ;`;
 var addquery = `INSERT INTO orders(order_id, item_name,email,item_price,phone_number,quantity,location) VALUES(?,?,?,?,?,?,?);`;
 var delquery = `delete  from orders where order_id =?;`;
 var updatequery = `update orders set  item_name=?,email=?,item_price=?,phone_number=?,quantity=?,location=?  where order_id=?;`;
+var getorderbyid = `select item_name,email,item_price,phone_number,quantity,location from orders where order_id =?;`;
 
 router.get("/getorder", (req, res) => {
   connection.connect();
-  connection.query(getquery, [req.body.order_id], (error, results) => {
+  connection.query(getquery, (error, results) => {
+    if (error) {
+      console.error(error);
+    } else {
+      return res.send(results);
+    }
+  });
+});
+router.get("/getorderbyid/:id", (req, res) => {
+  connection.connect();
+  const order_id = req.params.id;
+  connection.query(getorderbyid, [order_id], (error, results) => {
     if (error) {
       console.error(error);
     } else {
@@ -57,9 +69,10 @@ router.post("/addorder", (req, res) => {
   return res.send("<h1>New order added sucessfully</h1>");
 });
 
-router.delete("/deleteorder", (req, res) => {
+router.delete("/deleteorder/:id", (req, res) => {
   connection.connect();
-  connection.query(delquery, [req.body.order_id], (error, results) => {
+  const order_id = req.params.id;
+  connection.query(delquery, [order_id], (error, results) => {
     if (error) {
       console.error(error);
     } else {
@@ -70,9 +83,9 @@ router.delete("/deleteorder", (req, res) => {
 });
 
 //update
-router.put("/updateorder", (req, res) => {
+router.put("/updateorder/:id", (req, res) => {
   connection.connect();
-  // var user_id = req.params.id;
+  var order_id = req.params.id;
   connection.query(
     updatequery,
     [
@@ -82,7 +95,7 @@ router.put("/updateorder", (req, res) => {
       req.body.phone_number,
       req.body.quantity,
       req.body.location,
-      req.body.order_id,
+      order_id,
     ],
     (error, results) => {
       if (error) {

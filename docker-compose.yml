@@ -7,6 +7,8 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=foodstallorders
       - MYSQL_DATABASE=foodstallorders
+    expose:
+      - 3306
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
   backend:
@@ -14,8 +16,6 @@ services:
     container_name: backend
     depends_on:
       - db
-    expose:
-      - 3306
     ports:  
       - "8000:8000"
     # command to sleep for 30 seconds and then run npm start

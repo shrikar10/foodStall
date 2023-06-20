@@ -9,10 +9,9 @@ RUN npm install
 COPY . .
 
 EXPOSE 8000
-EXPOSE 3306
 
-ENV USER=USER
-ENV PASSWORD=PASS
-ENV PORT=PORT
-ENV DB_PASS=DB_PASS
+ENV USER=shivarajum42@gmail.com
+ENV PASSWORD=frebifinsqhemvur
+ENV PORT=8000
+ENV DB_PASS=foodstallorders
 

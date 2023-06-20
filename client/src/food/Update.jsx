@@ -1,10 +1,10 @@
-import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {Link, useLocation, useNavigate } from 'react-router-dom';
+import {api} from "./DataService";
+
 
 const Update = () => {
     const [user, setUser] =useState({
-        // user_id: "",
         order_id :"",
         first_name :"",
         last_name :"",
@@ -12,62 +12,110 @@ const Update = () => {
         address : "",
 
     });
+    const [order, setOrder] =useState({
+      email: "",
+      item_name :"",
+      phone_number :"",
+      item_price :"",
+      quantity :"",
+      location :""
+    })
     const [error,setError] = useState(false)
-
+    
     const location = useLocation()
     const navigate = useNavigate()
 
     const user_id = location.pathname.split("/")[2]
-
-
+    const entity = location.state?.entityid;
+    
     const handleChange = (e) =>{
-        setUser(prev=>({...prev, [e.target.name]: e.target.value}));
+      if(entity === "users"){
+        setUser(prev=>({...prev, [e.target.name]: e.target.value}));}
+        else{
+          setOrder(prev=>({...prev, [e.target.name]: e.target.value}));
+        }
     };
-
+    
+    useEffect( ()=>{
+       const  updateForm =  async () =>{
+        if (entity === "users"){
+           await api.get("/getuserbyid/"+user_id)
+          .then(res=>{
+            setUser((prevUser) => ({ ...prevUser, ...res.data[0] }));
+            setError(true)
+          })
+          .catch(err=>console.log(err))
+        }
+        else{
+          await api.get("/getorderbyid/"+user_id)
+          .then(res=>{
+            setOrder((prevOrder) => ({ ...prevOrder, ...res.data[0] }));
+          })
+          .catch(err=>console.log(err))
+        }
+      }
+      updateForm()
+    },[entity,user_id])
+ 
     const handleClick =async  e => {
         e.preventDefault()
         try{
-            await axios.put("http://localhost:8000/api/updateUser/"+ user_id,user);
+          if(entity=== "users"){
+            await api.put("/updateUser/"+ user_id,user);
             navigate("/")
+            alert("User updated successfully!");
+            }
+            else{
+              await api.put("/updateorder/"+ user_id,order);
+              navigate("/orders")
+              alert("Order updated successfully!");
+              
+            }
         }catch(err){
             console.log(err);
             setError(true);
         }
     };
 
-    // console.log(book)
-
     return (
-        <div className='form'>
-            <h1>Update the User</h1>
+      <div>
+      <h1>{entity === "orders" ? 'Update the Order' : 'Update the User'}</h1>
+      {entity === "users" ? 
+      
+            <div className='form'>
             <input
             type="number"
-            placeholder="order ID number"
+            value={user.order_id}
+            placeholder='Order Id'
             name="order_id"
             onChange={handleChange}
           />
           <input
             type="text"
-            placeholder="User First Name"
+            value={user.first_name}
+            placeholder='first_name'
             name="first_name"
             onChange={handleChange}
           />
           <input
             type="text"
-            placeholder="User Last Name"
+            value={user.last_name}
+            placeholder='last_name'
             name="last_name"
             onChange={handleChange}
           />
           <input
             type="number"
-            placeholder="Phone number"
+            value={user.phone_number}
+            placeholder='phone_number'
             name="phone_number"
             onChange={handleChange}
           />
           <textarea
             rows={5}
             type="text"
-            placeholder="User Address"
+            value={user.address}
+            placeholder='address'
             name="address"
             onChange={handleChange}
             />
@@ -75,8 +123,60 @@ const Update = () => {
             {error && "Something went wrong!"}
             <Link to="/">See all Users</Link>
 
+            </div>
             
-        </div>
+         :
+         <div className='form'>
+          
+          <input
+            type="text"
+            placeholder="Item Name"
+            value={order.item_name}
+            name="item_name"
+            onChange={handleChange}
+          />
+           <input
+            type="number"
+            placeholder="Item Price"
+            value={order.item_price}
+            name="item_price"
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            placeholder="Email"
+            value={order.email}
+            name="email"
+            onChange={handleChange}
+          />
+          <input
+            type="number"
+            placeholder="Phone number"
+            value={order.phone_number}
+            name="phone_number"
+            onChange={handleChange}
+          />
+          <input
+            type="number"
+            placeholder="quantity"
+            value={order.quantity}
+            name="quantity"
+            onChange={handleChange}
+            />
+            <textarea
+            rows={5}
+            type="text"
+            value={order.location}
+            placeholder="Location"
+            name="location"
+            onChange={handleChange}
+            />
+            <button className="formButton" onClick={handleClick}>Update</button>
+            {error && "Something went wrong!"}
+            <Link to="/orders">See all Orders</Link>
+            </div>
+            }
+        </div> 
     )
 }
 
