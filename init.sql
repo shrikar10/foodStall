@@ -42,7 +42,7 @@ VALUES (5, 1, 'David', 'Wilson', '4445556666', '654 Cedar Rd');
 
 CREATE TABLE login (
   user_id INT PRIMARY KEY,
-  password VARCHAR(50),
+  password VARCHAR(100),
   FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 

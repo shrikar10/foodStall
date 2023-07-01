@@ -36,7 +36,7 @@ router.use(
 // Authentication middleware
 router.get("/login", (req, res) => {
   if (req.session.user) {
-    res.send({ loggedIn: true, user: req.session.user });
+    res.send({ loggedIn: true });
   } else {
     res.send({ loggedIn: false });
   }
@@ -45,15 +45,16 @@ router.get("/login", (req, res) => {
 router.post("/login", (req, res) => {
   connection.connect();
   const password = req.body.password;
-  connection.query(checkPass, [req.body.user_id], (error, results) => {
+  const user_id = req.body.user_id;
+  connection.query(checkPass, [user_id], (error, results) => {
     if (error) {
       console.error(error);
     } else {
       const hash = results[0].password;
       bcrypt.compare(password, hash, function (err, result) {
         if (result == true) {
-          req.session.user = result;
-          return res.send("Login Successful");
+          req.session.user = user_id;
+          return res.status(200).json({ message: "Login Successful" });
         } else {
           return res.send("Wrong username/password");
         }
@@ -74,10 +75,25 @@ router.post("/signup", (req, res) => {
         if (error) {
           console.error(error);
         } else {
-          res.send("Password added");
+          return res
+            .status(200)
+            .json({ success: true, message: "User signedup successfully" });
         }
       });
     }
   });
 });
+
+router.get("/logout", (req, res) => {
+  req.session.destroy((error) => {
+    if (error) {
+      console.error(error);
+    } else {
+      res.clearCookie("user_id");
+      // res.redirect("/login"); // Redirect the user to the login page or any other appropriate page
+      res.send("Logout Successful");
+    }
+  });
+});
+
 module.exports = router;

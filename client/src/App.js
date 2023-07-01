@@ -11,8 +11,10 @@ import Orders from "./food/Orders";
 // import Rest from "./food/Rest";
 import Navbar from "./components/NavBar";
 import Signup from "./auth/Signup";
+import Login from "./auth/Login";
 
 import "./style.css"
+
 
 function App() {
   return (
@@ -24,6 +26,7 @@ function App() {
           <Route path="/orders" element={<Orders/>}/>
           {/* <Route path="/" element={<food/>}/> */}
           <Route path="/signup" element={<Signup />}/>
+          <Route path="/login" element={<Login />}/>"
           <Route path="/add" element={<Add/>}/>
           <Route path="/update/:id" element={<Update/>}/>
           {/* <Route path="/delete/:id" element={<delete/>}/> */}

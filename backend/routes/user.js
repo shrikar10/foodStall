@@ -4,7 +4,12 @@ const connectiontoDB = require("../controllers/db");
 const connection = connectiontoDB();
 
 var addquery = `INSERT INTO users(user_id, order_id,first_name, last_name,phone_number, address) VALUES(?,?,?,?,?,?);`;
-var delquery = `delete from users where user_id=?;`;
+var delquery = `
+DELETE login, users
+FROM login
+INNER JOIN users ON login.user_id = users.user_id
+WHERE users.user_id = ?;
+`;
 var updatequery = `update users set order_id=?,first_name=?, last_name=?,phone_number = ?, address=? where user_id = ?;`;
 var getquery = `select * from users ;`;
 var getuserbyid = `select order_id,first_name, last_name,phone_number, address  from users where user_id = ?;`;
@@ -24,12 +29,17 @@ router.post("/addUser", (req, res) => {
     (error, results) => {
       if (error) {
         console.error(error);
+        return res
+          .status(500)
+          .json({ success: false, message: "Error adding user" });
       } else {
         // console.log(results[0]);
+        return res
+          .status(200)
+          .json({ success: true, message: "User added successfully" });
       }
     }
   );
-  return res.send("<h1>User added sucessfully</h1>");
 });
 
 router.delete("/deleteUser/:id", (req, res) => {
@@ -39,10 +49,9 @@ router.delete("/deleteUser/:id", (req, res) => {
     if (error) {
       console.error(error);
     } else {
-      console.log(results[0]);
+      return res.send("<h1>User deleted sucessfully</h1>");
     }
   });
-  return res.send("<h1>User deleted sucessfully</h1>");
 });
 
 // router.put("/updateUser/:id", (req, res) => {

@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {api} from "./DataService";
-
+import "../styles/form.css"
 const Add = () => {
     const [user, setUser] =useState({
         user_id: "",
@@ -63,7 +63,7 @@ const Add = () => {
       <div>
           <h1>{entity === "users"  ? "Add User" : "Add Order"}</h1>
         { entity === "users" ?
-          <div className="form">
+          <div className="signup-container">
           <input
             type="number"
             placeholder="user ID number"
@@ -113,7 +113,7 @@ const Add = () => {
           <Link to="/">See all Users</Link>
         </div>
         :
-        <div className="form">
+        <div className="signup-container">
           <input
             type="number"
             placeholder="order ID number"
